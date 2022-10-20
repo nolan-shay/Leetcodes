@@ -14,7 +14,6 @@ class Solution {
         if ( remainder == 1){
             int[] ans = new int[digits.length + 1];
             ans[0] = 1;
-            System.arraycopy(digits, 0, ans, 1, digits.length);
             return ans;
         }
         return digits;
