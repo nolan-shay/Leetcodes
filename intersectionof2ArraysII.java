@@ -1,20 +1,34 @@
 class Solution {
     public int[] intersect(int[] nums1, int[] nums2) {
-        List<Integer> intersection = new ArrayList<Integer>();
-        for (int i = 0; i < nums1.length; i++){
-            for (int j = 0; j < nums2.length; j++){
-                if ( nums1[i] == nums2[j]){
-                    intersection.add(nums1[i]);
-                    nums2[j] = -1;
-                    //exit for loop
-                    break;
-                }
+        // ensure mapping is done of smaller array
+        int[] numsSm, numsL;
+        if (nums1.length > nums2.length){
+            numsSm = nums2;
+            numsL = nums1;
+        } else {
+            numsSm = nums1;
+            numsL = nums2;
+        }
+        List<Integer> intersection = new ArrayList<>();
+        HashMap<Integer,Integer> freq = new HashMap<>();
+        for ( int i = 0; i < numsSm.length; i++){
+            if (freq.containsKey(numsSm[i])){
+                freq.put(numsSm[i],freq.get(numsSm[i]) + 1);
+            } else {
+                freq.put(numsSm[i], 1);
             }
         }
-        int[] ans = new int[intersection.size()];
-        for (int i = 0; i < intersection.size(); i++){
-            ans[i] = intersection.get(i);
+        for ( int i = 0; i< numsL.length; i++){
+            if ( freq.containsKey(numsL[i]) && freq.get(numsL[i]) > 0){
+                freq.put(numsL[i],freq.get(numsL[i]) - 1);
+                intersection.add(numsL[i]);
+            }
         }
-        return ans;
+        int[] answer = new int[intersection.size()];
+        for ( int i = 0; i < intersection.size(); i++){
+            answer[i] = intersection.get(i);
+        }
+                
+        return answer;
     }
 }
