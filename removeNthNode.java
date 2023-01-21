@@ -10,7 +10,24 @@
  */
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode cur = head;
+        if (head.next == null) {return null;}
+        ListNode cur2 = head;
+        ListNode cur1 = head;
+        for ( int i = 0; i < n; i++){
+            cur2 = cur2.next;
+        }
+        if ( cur2 == null) { return head.next;}
+        while(cur2.next!= null) {
+            cur1 = cur1.next;
+            cur2 = cur2.next;
+        }
+        cur1.next = cur1.next.next;
+        return head;
+
+    }
+}
+/*
+ListNode cur = head;
         HashMap<Integer, ListNode> hm = new HashMap<>();
         int count = 1;
         hm.put(count, cur);
@@ -23,10 +40,8 @@ class Solution {
         if ( count - n == 0) { return head.next;}
         ListNode hop = hm.get(count-n);
         hop.next = hop.next.next;
-        return head;
-
-    }
-}
+        return head; 
+*/
 
 /*
         ListNode cur = head;
