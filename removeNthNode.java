@@ -11,21 +11,17 @@
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode cur = head;
-        Stack<ListNode> st = new Stack<>();
+        HashMap<Integer, ListNode> hm = new HashMap<>();
         int count = 1;
-        st.push(cur);
+        hm.put(count, cur);
         while(cur.next!=null){
             count++;
             cur = cur.next;
-            st.push(cur);
+            hm.put(count, cur);
         }
         if (count == 1) {return null;}
         if ( count - n == 0) { return head.next;}
-
-        for ( int i =0; i < n; i++){
-            st.pop();
-        }
-        ListNode hop = st.pop();
+        ListNode hop = hm.get(count-n);
         hop.next = hop.next.next;
         return head;
 
