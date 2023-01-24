@@ -1,4 +1,50 @@
-class Solution {
+class SolutionImproved {
+    public List<List<Integer>> threeSum(int[] nums) {
+        HashSet<List<Integer>> hs = new HashSet<>();
+        int mid, right, sum;
+        Arrays.sort(nums);
+        for (int left = 0; left <= nums.length -3; left++){
+            mid = left+1;
+            right = nums.length-1;
+            while ( mid < right){
+                sum = nums[left] + nums[mid] + nums[right];
+                if (sum == 0){
+                    //System.out.println("adding " +  nums[left] + " " + nums[mid] + " " + nums[right]);
+                    hs.add( Arrays.asList(nums[left],nums[mid],nums[right]));
+                    mid++;
+                    right--;
+                } else if ( sum < 0){
+                    mid++;
+                } else {
+                    right--;
+                }
+            }
+        }
+
+        return new ArrayList<>(hs);
+
+
+
+        
+    }
+    /*
+    use a Set to store our triplets, and ensure the triplets are only added in numerical order. 
+    use a two pointer method
+
+    for i = 1 to 3rd to last number
+        mid = i +1;
+        right = last;
+        while mid < right
+            caclulate sum
+            if sum = 0, add to set
+            if sum < 0 mid ++
+            if sum > 0 mid --
+
+    
+
+    */
+
+class SolutionFirst {
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> answer = new ArrayList<>();
         HashMap<Integer,Integer> hm = new HashMap<>();
