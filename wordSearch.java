@@ -5,6 +5,37 @@ class Solution {
             for ( int col = 0; col < board[0].length; col++)
                 if ( board[row][col] == word.charAt(0)){
                     HashSet<List<Integer>> visited = new HashSet<>();
+                    if ( existHelper( row, col, board, word, 0, visited) ) return true;
+                }
+        }
+        return false;
+    }
+
+    public boolean existHelper( int row, int col, char[][] board, String word, int index, HashSet<List<Integer>> visited){
+        if ( index == word.length()) return true;
+        if ( row >= board.length || row < 0 || col < 0 || col >= board[0].length || visited.contains(Arrays.asList(row,col)) || board[row][col] != word.charAt(index) ){
+            return false;
+        }
+        visited.add(Arrays.asList(row,col));
+        boolean left, right, up, down;
+        down = existHelper( row+1, col, board, word, index+1, visited);
+        up = existHelper( row-1, col, board, word, index+1, visited);
+        right = existHelper( row, col+1, board, word, index+1, visited);
+        left = existHelper( row, col-1, board, word, index+1, visited);
+
+        visited.remove(Arrays.asList(row,col));
+        return ( left || right || down || up);
+
+    }
+}
+
+class SolutionLong {
+    public boolean exist(char[][] board, String word) {
+        if (board.length == 0) return false;
+        for ( int row = 0; row < board.length; row++){
+            for ( int col = 0; col < board[0].length; col++)
+                if ( board[row][col] == word.charAt(0)){
+                    HashSet<List<Integer>> visited = new HashSet<>();
                     visited.add( Arrays.asList(row,col) );
                     if ( existHelper( row, col, board, word.substring(1,word.length()), visited) ) return true;
                 }
