@@ -1,3 +1,25 @@
+class SolutionDPOptimized {
+    public int longestCommonSubsequence(String text1, String text2) {
+        int[][] arrLCS = new int[2][text2.length()+1];
+        for ( int pos1 = text1.length()-1; pos1 >= 0; pos1--){
+            for (int pos2 = text2.length()-1; pos2 >= 0; pos2--){
+                int take = 0, skip1 = 0, skip2 = 0;
+                if (text2.charAt(pos2) == text1.charAt(pos1)){
+                    take = 1 + arrLCS[1][pos2+1];
+                }
+                skip1 = arrLCS[1][pos2];
+                skip2 = arrLCS[0][pos2+1];
+
+                arrLCS[0][pos2] = Math.max(Math.max(skip1,skip2), take);
+
+            }
+            arrLCS[1] = arrLCS[0];
+            arrLCS[0] = new int[text2.length()+1];
+        }
+        return arrLCS[1][0];
+    }
+}
+
 class SolutionDP {
     public int longestCommonSubsequence(String text1, String text2) {
         int[][] arrLCS = new int[text1.length()][text2.length()];
