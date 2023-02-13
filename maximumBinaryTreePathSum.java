@@ -39,3 +39,44 @@ class Solution {
         return root.val + left + right;
     }
 }
+
+class Solution {
+    public int maxPathSum(TreeNode root) {
+        HashMap<TreeNode, Integer> hm = new HashMap<>();
+        calculateOneWayPaths(root, hm);
+        return findMaxPath(root, hm);
+    }
+
+    private int calculateOneWayPaths(TreeNode root, HashMap<TreeNode,Integer> hm){
+        if ( root == null) return Integer.MIN_VALUE;
+        int left, right;
+
+        if (hm.containsKey(root.left) ) left = hm.get(root.left);
+        else left = calculateOneWayPaths(root.left, hm);
+
+        if (hm.containsKey(root.right) ) right = hm.get(root.right);
+        else right = calculateOneWayPaths(root.right, hm);
+
+        if ( left <= 0 && right <= 0){
+            hm.put(root,root.val);
+            return root.val;
+        } else {
+            hm.put(root, root.val + Math.max(left,right));
+            return root.val + Math.max(left,right);
+        }
+
+    }
+
+    private int findMaxPath(TreeNode root, HashMap<TreeNode,Integer> hm){
+        if ( root == null) return Integer.MIN_VALUE;
+        int left, right;
+        if ( root.left == null || hm.get(root.left) < 0 ) left = 0;
+        else left = hm.get(root.left);
+        if ( root.right == null || hm.get(root.right) < 0 ) right = 0;
+        else right = hm.get(root.right);
+        int thisMax = root.val + left + right;
+        int childMax = Math.max(findMaxPath(root.left, hm), findMaxPath(root.right, hm));
+        return Math.max(thisMax, childMax);
+
+    }
+}
