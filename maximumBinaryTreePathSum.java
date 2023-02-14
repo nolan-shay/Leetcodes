@@ -13,7 +13,51 @@
  *     }
  * }
  */
-class Solution {
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution3 {
+    public int maxPathSum(TreeNode root) {
+        int[] answer = new int[]{root.val};
+        calculateOneWayPaths(root, answer);
+        return(answer[0]);
+    }
+
+    private int calculateOneWayPaths(TreeNode root, int[] answer){
+        if ( root == null) return Integer.MIN_VALUE;
+        int left, right;
+        left = calculateOneWayPaths(root.left, answer);
+        right = calculateOneWayPaths(root.right, answer);
+        int thisMax = root.val;
+        if ( left > 0) thisMax += left;
+        if ( right > 0) thisMax += right;
+        if (thisMax > answer[0]) answer[0] = thisMax;
+        
+        if ( left <= 0 && right <= 0) return root.val;
+        else return root.val + Math.max(left,right);
+
+    }
+
+}
+
+
+
+
+
+
+class Solution1 {
     public int maxPathSum(TreeNode root) {
         if (root == null) return Integer.MIN_VALUE;
         int pivot = longestPathPivot(root);
@@ -40,7 +84,11 @@ class Solution {
     }
 }
 
-class Solution {
+
+
+
+
+class Solution2 {
     public int maxPathSum(TreeNode root) {
         HashMap<TreeNode, Integer> hm = new HashMap<>();
         calculateOneWayPaths(root, hm);
