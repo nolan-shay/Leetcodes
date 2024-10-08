@@ -1,0 +1,23 @@
+class Solution {
+    List<List<Integer>> allCombos;
+    
+    public List<List<Integer>> combinationSum(int[] nums, int target) {
+        allCombos = new ArrayList<>();
+        List<Integer> empty = new ArrayList<>();
+        comboHelper(nums,0,target, empty);
+        return allCombos;
+    }
+
+    public void comboHelper(int[] nums,int pos, int target, List<Integer> combo ){
+        if ( target == 0) {
+            allCombos.add(combo);
+        }else if (target > 0 && pos < nums.length){
+            List<Integer> copy = new ArrayList<>(combo);
+            copy.add(nums[pos]);
+            comboHelper(nums,pos,target- nums[pos],copy); //takestay
+            comboHelper(nums,pos+1,target,combo); //skip
+        }
+
+
+    }
+}
