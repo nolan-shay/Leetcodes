@@ -67,3 +67,44 @@ then for edge (i,j) in edges
 
 return culprit
 */
+
+
+class Solution {
+    public int[] findRedundantConnection(int[][] edges) {
+        UnionFind uf = new UnionFind(edges.length);
+        for(int[] edge : edges){
+            if (uf.find(edge[0]) == uf.find(edge[1])){
+                return edge;
+            } else {
+                uf.union(edge[0], edge[1]);
+            }
+        }
+        return new int[2];
+       
+    }
+}
+
+class UnionFind {
+    int[] parent;
+    public UnionFind(int size){
+        parent = new int[size+1];
+        for ( int i = 0; i<size+1; i++){
+            parent[i] = i;
+        }
+    }
+
+    public int find(int child){
+        if ( parent[child] == child){
+            return child;
+        }
+        parent[child] = find(parent[child]);
+        return parent[child];
+    }
+
+    public void union(int i, int j){
+        int iParent = find(i);
+        int jParent = find(j);
+        parent[jParent] = iParent;
+
+    }
+}
