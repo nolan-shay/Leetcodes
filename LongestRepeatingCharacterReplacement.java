@@ -1,60 +1,47 @@
 class Solution {
     public int characterReplacement(String s, int k) {
-        int max = 0;
-        for ( int i = 0; i < s.length(); i++){
-            for ( int j = i; j <= s.length(); j++){
-                max = Math.max(max, canBeSwapped(s.substring(i,j), k));
+        int pointer1 = 0;
+        int pointer2 = 0;
+        int[] freq = new int[26];
+        int max = 1;
+        freq[ s.charAt(0) - 'A'] = 1;
+        while(true){
+            while ( (pointer2 - pointer1 +1) - getMaxChar(freq) <= k ){
+                if ((pointer2 - pointer1 +1) > max) max = pointer2 - pointer1 + 1;
+                pointer2++;
+                if (pointer2 == s.length()) return max;
+                freq[s.charAt(pointer2) - 'A']++;
             }
+            while ( (pointer2 - pointer1 +1) - getMaxChar(freq) > k ){
+                freq[s.charAt(pointer1) - 'A']--;
+                pointer1++;
+            }
+        }
+
+        
+    }
+    // returns max freq
+    public int getMaxChar(int[] nums){
+        int max = 0;
+        for (int i : nums){
+            if ( i > max) max = i;
         }
         return max;
     }
-
-    public int canBeSwapped(String s, int k){
-        int max = 0;
-        int maxPos = 0;
-        int[] hm = new int[26];
-        for (char c: s.toCharArray()){
-            hm[c-'A']++;
-            if (hm[c-'A'] > max){
-                max = hm[c-'A'];
-                maxPos = c-'A';
-            }
-        }
-        int sum = 0;
-        for ( int i = 0; i < 26; i++){
-            if ( i != maxPos){
-                sum += hm[i];
-            }
-        }
-        if (sum <= k) return s.length();
-        return 0;
-    }
 }
 
-/**
+/*
+2 pointer where we build a sequence up while ( sub.length - number most freq character <= k )
+    if < k then we keep track of a max length
+then we shrink while ( sub.length - number of most freq character > k) 
+we can stop once last pointer is last value
 
 
-canBeSwapped(String s, int k){
-    int[] hm = new int[26];
-    for (char c: String s){
-        hm[c]++;
-        if hm[c] > max, max = hm[c], maxPos = c;
-    }
-    for( i =0 i < 26 i++){
-        if i != maxPos{
-            sum += hm[i];
-        }
-    }
-    if (sum <= k) return s.length;
-    else return 0;
+get Max Char ( int[] freq)){
+    for loop find the max
 }
 
-to figure out if a string and be changed to the same letter in k operations
-
-we make a freq map
-get the max value in the map. Then if the sum of all the other values <= k it can be done. 
-
-if we did this for every substring
+return the max
 
 
 */
