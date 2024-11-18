@@ -61,3 +61,69 @@ bfs( adjList, node, visited)
                 q.add(i);
 
 */
+class Solution2 {
+    int[] parent;
+    public int countComponents(int n, int[][] edges) {
+        parent = new int[n];
+        HashSet<Integer> hs = new HashSet<>();
+        for ( int i =0; i < n; i++){
+            parent[i] = i;    
+        }
+        for (int [] e : edges){
+            union(e[0],e[1]);
+        }
+        for ( int i =0; i < n; i++){
+            hs.add(find(i));   
+        }
+        return hs.size();
+
+    }
+
+    public int find(int i){
+        if (parent[i] == i){
+            return i;
+        } else {
+            int rep = find(parent[i]);
+            parent[i] = rep;
+            return rep;
+        }
+    }
+
+    public void union(int a, int b){
+        int parentA = find(a);
+        int parentB = find(b);
+        parent[parentA] = parentB;
+    }
+
+}
+
+/*
+
+int[] parents
+
+for ( int i = 0; i< n;i++){
+    parent[i] = i;
+}
+
+for ( edge e : edges){
+    union(e[0], e[1])
+}
+
+for ( int i = 0; i< n;i++){
+    Set.add(find(i))
+}
+return Set.size();
+
+find ()
+    if Parent[i] = i
+        return i;
+    else 
+        return find(parent[i])
+
+union( a, b)
+
+    parentA = find(a);
+    parentB = find(B);
+    parent[parentA] = parentB;
+
+*/
