@@ -127,3 +127,53 @@ union( a, b)
     parent[parentA] = parentB;
 
 */
+
+class Solution3 { // with rank and subtracting count when unioning
+    int[] parent;
+    int[] rank;
+    int connected;
+
+    public int countComponents(int n, int[][] edges) {
+        parent = new int[n];
+        rank = new int[n];
+        connected = n;
+
+        HashSet<Integer> hs = new HashSet<>();
+        for ( int i =0; i < n; i++) parent[i] = i;
+        for ( int i =0; i < n; i++) rank[i] = 1;
+        for (int [] e : edges){
+            union(e[0],e[1]);
+        }
+        return connected;
+
+    }
+
+    public int find(int i){
+        if (parent[i] == i){
+            return i;
+        } else {
+            int rep = find(parent[i]);
+            parent[i] = rep;
+            return rep;
+        }
+    }
+
+    public void union(int a, int b){
+        int parentA = find(a);
+        int parentB = find(b);
+        if ( parentA == parentB) {
+            return;
+        } else if ( rank[parentA] > rank[parentB]){
+            rank[parentB] = rank[parentA];
+            parent[parentB] = parentA;
+        } else if ( rank[parentA] < rank[parentB]){
+            rank[parentA] = rank[parentB];
+            parent[parentA] = parentB;
+        } else {
+            rank[parentA]++;
+            parent[parentB] = parentA;
+        }
+        connected--;
+    }
+
+}
