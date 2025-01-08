@@ -1,4 +1,32 @@
-class Solution {
+class SolutionJan12025 {
+    public int carFleet(int target, int[] position, int[] speed) {
+        List<int[]> cars = new ArrayList<>();
+        int fleets = position.length;
+        for( int i = 0; i < position.length; i++){
+            int[] car = new int[]{position[i],speed[i]};
+            cars.add(car);
+        }
+        Collections.sort(cars,(a,b)->(Integer.compare(a[0],b[0])));
+        for(int i = position.length-1; i >= 1;i--){
+            if (willCatch(cars.get(i-1),cars.get(i),target)) {
+                cars.set(i-1, cars.get(i));
+                fleets--;
+            }
+        }
+
+        return fleets;
+    }
+
+    public boolean willCatch(int[] a, int[] b, int target ){ //ceiling or double
+        if (a[1] < b[1]) return false;
+        double t = (double) (b[0]- a[0])/ (double)(a[1]-b[1]);
+        double overtake = a[0] + t*a[1];
+        System.out.println(overtake + " " +target);
+        return overtake <= target;
+    } 
+}
+
+class SolutionSep92024 {
     public int carFleet(int target, int[] position, int[] speed) {
         
         Car[] cars = new Car[position.length];
