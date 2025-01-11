@@ -7,25 +7,11 @@ class Solution {
             sortedH.add(new int[]{heights[i],i});
         }
         Collections.sort(sortedH, (a,b)->(Integer.compare(a[0],b[0])));
-        List<int[]> curBars;
 
         for ( int i = 0; i < sortedH.size(); i++){
             int[] cur = sortedH.get(i);
-            curBars = new ArrayList<>(Arrays.asList(cur));
-            i++;
-            while(i < sortedH.size() && curBars.get(0)[0] == sortedH.get(i)[0]){
-                curBars.add(sortedH.get(i));
-                i++;
-            }
-            i--;
-            for(int[] bar : curBars){
-                // System.out.println("bar" + bar[0] + ", " +bar[1]);
-                max = Math.max(max, eval(bar, tree, heights.length));
-            }
-            for(int[] bar : curBars){
-                tree.add(bar[1]);
-            }
-            
+            max = Math.max(max, eval(cur, tree, heights.length));
+            tree.add(cur[1]);
         }
         return max;
     }
@@ -42,3 +28,23 @@ class Solution {
         } else return bar[0] * (higher - 1 - lower);
     }
 }
+/**
+ways we can find some rectangles
+size 1 rect
+given x adj nums, rect size would be min x length 
+
+first thought 
+for each bar, expand left and right until you reach a bar less than you (exclusive)
+then multiuply your height times dist from left to right
+n2 solution
+
+2nd thought get a sorted list of 
+(height,index) nlgn
+then work from lowest height up by putting the indexes into a sorted array
+1,1 max rectangle would be length * 1 if lower and higher = 
+2,3
+as we look at each bar from lowest to highest, we see the indexes of any smaller bars
+in the Treeset, giving us the left and right bounds of a rectangle at that height
+then we put our index into the Treeset.
+(1,3)
+**/
