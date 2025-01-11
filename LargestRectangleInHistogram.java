@@ -48,3 +48,41 @@ in the Treeset, giving us the left and right bounds of a rectangle at that heigh
 then we put our index into the Treeset.
 (1,3)
 **/
+
+class Solution2 {
+    public int largestRectangleArea(int[] heights) {
+        Stack<int[]> st = new Stack<>();
+        int max = 0;
+        st.push(new int[]{heights[0],0});
+        for (int i = 1; i < heights.length; i++){
+            int[] cur = new int[]{heights[i],i};
+            int[] top = st.peek();
+            while(!st.isEmpty() && cur[0] <= top[0]){
+                st.pop();
+                max = Math.max(max,top[0] *(i - top[1]));
+                cur[1] = top[1];
+                if (!st.isEmpty()) top = st.peek();
+            }
+            st.push(cur);
+        }
+        while(!st.isEmpty()){
+            int[] cur = st.pop();
+            max = Math.max(max, cur[0] *(heights.length - cur[1]));
+        }
+        return max;
+
+    }
+}
+
+/**
+push first element onto the stack
+for ( i = 1 in heights)
+    cur = (heights[i],i)
+    top = stack.peek
+    while ( cur.height <= top.height) 
+        stack.pop;
+        max = top.height. * (i -  top.index)
+        cur.index = top.index
+        top = stack.peek
+    push cur onto stack
+ */
