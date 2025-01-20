@@ -1,3 +1,44 @@
+class Solution { // from 1/20/25
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode cur = head;
+        int length = 0;
+        while( cur != null){
+            length++;
+            cur = cur.next;
+        }
+        cur = head;
+        if ( n < length){
+            for ( int i = 0; i < (length -n -1); i++){
+                cur = cur.next;
+            }
+            cur.next = cur.next.next;
+        } else {
+            head = head.next;
+        }
+        return head;
+    }
+}
+
+/**
+so we have to have ref to 3.
+3.next = 3.next.next
+n = 1
+n = 1
+but if n = sz
+head = head.next;
+edge cases where it is the front node or the last node
+
+so first step is to iterate over the whole array to find its size
+
+cur = head
+length = 
+while ( cur != null)
+    length ++;
+
+*/
+
+
+
 /**
  * Definition for singly-linked list.
  * public class ListNode {
