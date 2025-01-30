@@ -46,3 +46,33 @@ class Solution {
         return ans;
     }
 }
+
+class SolutionJan2025 {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(root,0));
+        while(!q.isEmpty()){
+            Pair cur = q.poll();
+            if (cur.node != null){
+                if (ans.size() <= cur.level){
+                    ans.add(new ArrayList<>());
+                }
+                ans.get(cur.level).add(cur.node.val);
+                q.add(new Pair(cur.node.left,cur.level+1));
+                q.add(new Pair(cur.node.right,cur.level+1));
+            }
+        }
+        return ans;
+    }
+}
+
+class Pair {
+    TreeNode node;
+    int level;
+
+    public Pair (TreeNode node, int level){
+        this.node = node;
+        this.level = level;
+    }
+}
