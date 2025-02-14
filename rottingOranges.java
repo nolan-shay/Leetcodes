@@ -102,3 +102,56 @@ minute it was rotted, else if its visited ie dist > 0, then we replace it with o
 
 at the end we iterate through and see if any are still rotten
 */
+
+
+class Solution {
+    int[][] grid;
+    int freshCount;
+    public int orangesRotting(int[][] grid) {
+        this.grid = grid;
+        freshCount = 0;
+        int max = 0;
+        Queue<Orange> q = new LinkedList<>();
+        for (int i = 0; i < grid.length; i++){
+            for (int j = 0; j < grid[0].length; j++){
+                if (grid[i][j] == 2) q.add(new Orange(i,j,0));
+                else if (grid[i][j] == 1) freshCount ++;
+            }
+        }
+        while(!q.isEmpty()){
+            Orange cur = q.poll();
+            max = Math.max(max, cur.time);
+            evaluate(new Orange(cur.row+1, cur.col, cur.time+1), q);
+            evaluate(new Orange(cur.row-1, cur.col, cur.time+1), q);
+            evaluate(new Orange(cur.row, cur.col-1, cur.time+1), q);
+            evaluate(new Orange(cur.row, cur.col+1, cur.time+1), q);
+        }
+
+        return freshCount == 0? max : -1;
+    }
+
+    public void evaluate(Orange orange, Queue<Orange> q){
+        if ( orange.row < 0 || orange.row >= grid.length || orange.col < 0 || orange.col >= grid[0].length || grid[orange.row][orange.col] == 0 || grid[orange.row][orange.col] == 2 ) return;
+        grid[orange.row][orange.col] = 2;
+        freshCount--;
+        q.add(orange);
+    }
+}
+
+class Orange{
+    int row;
+    int col;
+    int time;
+    public Orange (int row, int col, int time){
+        this.row = row;
+        this.col = col;
+        this.time = time;
+    }
+}
+
+/**
+
+iterate through grid and add all rotten oranges to the queue
+
+
+ */
