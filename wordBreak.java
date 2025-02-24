@@ -24,3 +24,24 @@ class Solution {
         return false;
     }
 }
+
+//2/22/2025
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        HashSet<String> words = new HashSet<>();
+        for (String word : wordDict) words.add(word);
+        boolean[] sub = new boolean[s.length()];
+        for (int i = s.length()-1; i >=0; i--){
+            if (words.contains(s.substring(i,s.length()))) sub[i] = true;
+            else {
+                for (int j = i+1; j < s.length(); j++){
+                    if (sub[j] && words.contains(s.substring(i,j))){
+                        sub[i] = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return sub[0];
+    }
+}
