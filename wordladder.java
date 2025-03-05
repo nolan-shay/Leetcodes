@@ -58,7 +58,13 @@ class Solution {
     }
 
     public boolean isOneLetterOff( String a, String b){
-        
+        int differences = 0;
+        for ( int i = 0; i < a.length(); i ++){
+            if (a.charAt(i) != b.charAt(i)) differences++;
+            if (differences > 1) return false;
+
+        }
+        return true;
     }
 }
 
