@@ -1,3 +1,30 @@
+class Solution { //solution from 3/29/25
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String,List<String>> hm = new HashMap<>();
+        for (String str : strs){
+            int[] freq = new int[26];
+            for ( char ch : str.toCharArray()){ //constant
+                freq[ch - 'a']++;
+            }
+            StringBuilder freqStr = new StringBuilder();
+            for( int i : freq) freqStr.append(i+",");
+            if (hm.containsKey(freqStr.toString())){
+                hm.get(freqStr.toString()).add(str);
+            } else {
+                List<String> list = new ArrayList<>();
+                list.add(str);
+                hm.put(freqStr.toString(),list);
+            }
+        }
+
+        List<List<String>> ans = new ArrayList<>();
+        for ( Map.Entry<String,List<String>> e : hm.entrySet()){
+            ans.add(e.getValue());
+        }
+        return ans;
+    }
+}
+
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
         List<List<String>> ans = new ArrayList<>();
