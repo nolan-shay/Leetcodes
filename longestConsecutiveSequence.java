@@ -54,3 +54,32 @@ when you look at a number
         record length
 
         */
+
+class Solution { // 3/30/25
+    public int longestConsecutive(int[] nums) {
+        HashSet<Integer> hs = new HashSet<>();
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for (int num : nums) hs.add(num);
+
+        for ( int num : hs){
+            if ( hm.containsKey(num-1) && hm.containsKey(num+1)){
+                int tmp = hm.get(num-1);
+                hm.put(hm.get(num-1),hm.get(num+1));
+                hm.put(hm.get(num+1),tmp);
+            } else if ( hm.containsKey(num-1)){
+                hm.put(num,hm.get(num-1));
+                hm.put(hm.get(num-1),num);
+            }else if ( hm.containsKey(num+1)){
+                hm.put(num,hm.get(num+1));
+                hm.put(hm.get(num+1),num);
+            } else{
+                hm.put(num,num);
+            }
+        }
+        int max = 0;
+        for (Map.Entry<Integer,Integer> e : hm.entrySet()){
+            max = Math.max(max, Math.abs(e.getKey() - e.getValue()) +1 );
+        }
+        return max;
+    }
+}
