@@ -1,3 +1,27 @@
+class Solution { // 5/14/25
+    public int rob(int[] nums) {
+        if (nums.length == 1) return nums[0];
+        if (nums.length == 2) return Math.max(nums[0],nums[1]);
+        nums[nums.length-2] = Math.max(nums[nums.length-2], nums[nums.length-1]);
+        for (int i = nums.length-3; i>=0; i--){
+            nums[i] = Math.max(nums[i]+nums[i+2], nums[i+1]);
+        }
+        return nums[0];
+    }
+}
+
+/**
+
+rob(0)
+    if within bounds
+    int rob = nums[0] + rob(2);
+    int wait = rob(1);
+    return max(rob,wait);
+
+    0 depends on 1,2
+
+ */
+
 class Solution {
     public int rob(int[] nums) {
         //return robH(nums, 0);
