@@ -1,3 +1,15 @@
+class Solution { // from 6/4/25
+    public boolean canJump(int[] nums) {
+        int n = nums.length;
+        int lastHop = n-1;
+        for ( int pos = n-2; pos >=0; pos--){
+            if (pos + nums[pos] >= lastHop) lastHop = pos;
+        }
+        return lastHop == 0;
+    }
+}
+
+
 class SolutionR {
     public boolean canJump(int[] nums) {
         return canJumpHelper(nums, 0);
