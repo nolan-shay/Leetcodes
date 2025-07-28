@@ -1,3 +1,29 @@
+class Solution { //jul 25 2025
+    public int characterReplacement(String s, int k) {
+        int[] map = new int[26];
+        int start = 0;
+        int max = 0;
+        
+        for ( int end = 0; end < s.length(); end++){
+            char chEnd = s.charAt(end);
+            char chStart = s.charAt(start);
+            map[chEnd-'A']++;
+            if ( (end - start +1) - getMax(map) > k){
+                map[chStart-'A']--;
+                start++;
+            }
+            max = Math.max(end - start +1,max);
+        }
+        return max;
+    }
+
+    public int getMax(int[] map){
+        int max = 0;
+        for(int x : map) { max = Math.max(max,x);}
+        return max;
+    }
+}
+
 class Solution {
     public int characterReplacement(String s, int k) {
         int pointer1 = 0;
