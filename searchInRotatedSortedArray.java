@@ -1,3 +1,67 @@
+class Solution { //7/29/2025
+    public int search(int[] nums, int target) {
+        int n = nums.length;
+        int start = 0, end = n-1, mid = 0;
+        if ( ! (nums[start] < nums[end]) ){
+            while( start < end - 1){
+                mid = (start + end)/2;
+                if (nums[mid] > nums[end]){
+                    start = mid;
+                } else {
+                    end = mid;
+                }
+            }
+            if (target <= nums[n-1]){
+                start = end;
+                end = n-1;
+            } else {
+                start = 0;
+                end = mid;
+            }
+
+        }
+        while ( start <= end){
+            mid = (start+end)/2;
+            if ( nums[mid] == target) return mid;
+            if ( nums[mid] > target){
+                end = mid-1;
+            } else {
+                start = mid+1;
+            }
+        }
+        return-1;
+        
+    }
+}
+
+/**
+if nums[0] < num[n-1] do regular binary search
+we could find the point where its rotated using binary search
+start = 0
+end = n-1
+while( start < end-1)
+    mid = (start + end) /2
+    if ( nums[mid] > nums[end]) // inflection contained 
+        start = mid
+    else end = mid
+// start is largest number, end is smallest number
+if ( target <= nums[n-2])
+    start = end;
+    end = n-1;
+else
+    start = 0;
+    end = 1;
+
+while ( start <= end){
+    mid = (start+end)/2
+    if ( nums[mid] == target)
+}
+
+
+
+*/
+
+
 class Solution {
     public int search(int[] nums, int target) {
         if (nums.length == 1 ){
