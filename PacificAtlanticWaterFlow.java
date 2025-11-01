@@ -1,4 +1,4 @@
-class Solution {
+class Solution { // 11/1/25
     int rows;
     int cols;
     boolean[][] visitedP;
@@ -91,3 +91,55 @@ for int row = 0 in rows
 
 
  */
+
+class Solution2 { // DFS solution 11/1/25
+    int rows;
+    int cols;
+    boolean[][] visitedP;
+    boolean[][] visitedA;
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        List<List<Integer>> ans = new ArrayList<>();
+        rows = heights.length;
+        cols = heights[0].length;
+        visitedP = new boolean[rows][cols];
+        visitedA = new boolean[rows][cols];
+
+        for ( int i = 0; i < rows; i++){
+            dfs(visitedP, Arrays.asList(i,0), heights);
+        }
+        for ( int i = 0; i < cols; i++){
+            dfs(visitedP, Arrays.asList(0,i), heights);
+        }
+        for ( int i = 0; i < rows; i++){
+            dfs(visitedA,Arrays.asList(i,cols-1), heights);
+        }
+        for ( int i = 0; i < cols; i++){
+            dfs(visitedA,Arrays.asList(rows-1,i), heights);
+        }
+
+        for ( int i = 0; i < rows; i++){
+            for (int j = 0; j<cols; j++){
+                if (visitedP[i][j] && visitedA[i][j]) ans.add(Arrays.asList(i,j));
+            }
+        }
+        return ans;
+
+    }
+
+    public void dfs(boolean[][] visited, List<Integer> cur, int[][] heights){
+            visited[cur.get(0)][ cur.get(1)] = true;
+            dfsH(visited, heights[cur.get(0)][cur.get(1)], Arrays.asList(cur.get(0),cur.get(1)+1), heights);
+            dfsH(visited, heights[cur.get(0)][cur.get(1)], Arrays.asList(cur.get(0),cur.get(1)-1), heights);
+            dfsH(visited, heights[cur.get(0)][cur.get(1)], Arrays.asList(cur.get(0)+1,cur.get(1)), heights);
+            dfsH(visited, heights[cur.get(0)][cur.get(1)], Arrays.asList(cur.get(0)-1,cur.get(1)), heights);
+    }
+
+    public void dfsH(boolean[][] visited, int val, List<Integer> point, int[][] heights){
+        if (point.get(0) < 0 || point.get(0) >= rows || point.get(1) < 0 || point.get(1) >= cols) return;
+        if (heights[point.get(0)][ point.get(1)] < val) return;
+        if (visited[point.get(0)][ point.get(1)]) return;
+        visited[point.get(0)][ point.get(1)] = true;
+        dfs(visited, point, heights);
+    }
+}
+
