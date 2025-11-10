@@ -1,3 +1,42 @@
+class Solution { // 11/8/25
+    public int minCostConnectPoints(int[][] points) {
+        boolean[] visited = new boolean[points.length];
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)-> a.weight - b.weight);
+        pq.add(new Pair(0,0));
+        int sum = 0;
+
+        while (!pq.isEmpty()){
+            Pair p = pq.poll();
+            if (!visited[p.node]){
+                visited[p.node] = true;
+                sum+= p.weight;
+                for ( int neighb = 0; neighb < points.length; neighb ++){
+                    if (!visited[neighb]){
+                        pq.add(new Pair(neighb, dist(p.node,neighb,points)));
+                    }
+                }
+            }
+        }
+        return sum;
+
+    }
+
+    public int dist( int a, int b, int[][] points){
+        return Math.abs(points[a][1] - points[b][1]) + Math.abs(points[a][0] - points[b][0]);
+    }
+}
+
+class Pair{
+    int node;
+    int weight;
+    public Pair( int n, int w){
+        node = n;
+        weight = w;
+    }
+}
+
+
+
 class Solution {
 
     public int minCostConnectPoints(int[][] points) {
