@@ -1,3 +1,45 @@
+class Solution {  //12/4/25
+
+    List<List<Integer>> adj;
+    List<Integer> order;
+    int[] visited; //0 , 1 (started), 2(visited); 
+    boolean dfsFailed = false;
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        adj = new ArrayList<>();
+        visited = new int[numCourses];
+        order = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) adj.add(new ArrayList<>());
+        for ( int[] prereq : prerequisites){
+            adj.get(prereq[0]).add(prereq[1]);
+        }
+
+        for (int i = 0; i < numCourses; i++){
+            if (!dfsFailed) dfs(i);
+        }
+        if (dfsFailed) return new int[0];
+        int[] ans = new int[order.size()];
+        for (int i = 0; i < order.size(); i++){
+            ans[i] = order.get(i);
+        }
+        return ans;
+    }
+
+    public void dfs(int node){
+        if (visited[node] == 1){
+            dfsFailed = true;
+            return;
+        }
+        if (visited[node] == 2) return;
+        visited[node] = 1;
+        for ( int neighb : adj.get(node)){
+            dfs(neighb);
+        }
+        visited[node] = 2;
+        order.add(node);
+    }
+}
+
+
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         List<List<Integer>> adjList = new ArrayList<>();
